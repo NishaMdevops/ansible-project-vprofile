@@ -17,8 +17,8 @@ pipeline {
         SONARSERVER = 'sonarserver'
         SONARSCANNER = 'sonarscanner'        }
     stages{
-       stage('BUILD') {
-         steps {
+        stage('BUILD') {
+            steps {
                sh 'mvn clean install -DskipTests install'
                }
          
@@ -64,6 +64,28 @@ pipeline {
                 }
             }
         }
+
+        stage('upload Artifacts to Nexus') {
+            steps {
+               nexusArtifactUploader(
+                  nexusVersion: 'nexus3',
+                  protocol: 'http',
+                  nexusUrl: '${NEXUSIP}:${NEXUSPORT}',
+                  groupId: 'QA',
+                  version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
+                  repository: "${RELEASE_REPO}",
+                  credentialsId: "${NEXUS_LOGIN}",
+                  artifacts: [
+                      [artifactId: 'vprofile',
+                        classifier: '',
+                        file: 'target/vprofile.war',
+                        type: 'war']
+                    ]
+          )
+
+            }
+
+        }        
     }
 }
 
