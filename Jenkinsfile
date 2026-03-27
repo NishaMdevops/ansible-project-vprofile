@@ -20,6 +20,25 @@ pipeline {
          steps {
                sh 'mvn clean install -DskipTests install'
                   }
+       }    
+        post{
+           success {
+               echo "Now Archiving..."
+               archiveArtifacts artifacts: '**/target/*.war'
+                   }
+               }
+
+
+        stage('TEST'){
+            steps{
+                sh 'mvn test'
+            }
+        }       
+        stage('Checkstyle Analysis') {
+            steps {
+                sh 'mvn checkstyle:checkstyle'
+               }
+             }          
                 
             }
         }
