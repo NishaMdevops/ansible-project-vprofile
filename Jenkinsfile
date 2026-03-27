@@ -1,4 +1,4 @@
-pipeline{
+pipeline {
     agent any
     tools {
         maven "MAVEN3.9"
@@ -14,7 +14,7 @@ pipeline{
         NEXUSPORT = '8081'
         NEXUS_GRP_REPO = 'vpro-maven-group'
         NEXUS_LOGIN = 'nexuslogin'
-    }
+        }
     stages{
        stage('BUILD') {
          steps {
@@ -25,4 +25,3 @@ pipeline{
         }
     } 
  
-}
