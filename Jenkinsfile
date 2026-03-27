@@ -3,7 +3,7 @@ pipeline {
     tools {
         maven "MAVEN3.9"
         jdk "JDK17"
-           }
+        }
     environment {
         SNAP_REPO = 'vprofile-snapshot'
         NEXUS_USER = 'admin'
@@ -19,15 +19,15 @@ pipeline {
        stage('BUILD') {
          steps {
                sh 'mvn clean install -DskipTests install'
-                  }
-       }    
-        post{
+               }
+         
+        post {
            success {
                echo "Now Archiving..."
                archiveArtifacts artifacts: '**/target/*.war'
-                   }
                }
-
+            }
+        }
 
         stage('TEST'){
             steps{
