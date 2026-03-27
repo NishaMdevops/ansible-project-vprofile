@@ -1,9 +1,8 @@
 
 def COLOR_MAP = [
     SUCCESS: 'good',
-    UNSTABLE: 'warning',
     FAILURE: 'danger',
-    ABORTED: 'danger'
+    
 ]
 
 pipeline {
@@ -11,7 +10,7 @@ pipeline {
     tools {
         maven "MAVEN3.9"
         jdk "JDK17"
-        }
+           }
     environment {
         SNAP_REPO = 'vprofile-snapshot'
         NEXUS_USER = 'admin'
@@ -78,7 +77,7 @@ pipeline {
                nexusArtifactUploader(
                   nexusVersion: 'nexus3',
                   protocol: 'http',
-                  nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+                  nexusUrl: '${NEXUSIP}:${NEXUSPORT}',
                   groupId: 'QA',
                   version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
                   repository: "${RELEASE_REPO}",
@@ -98,10 +97,9 @@ pipeline {
     post {
         always{
             echo 'slack notification'
-            slackSend channel: '#jenkinscicddd',
+            slackSend channel: '#jenkinscicdd',
             color: COLOR_MAP[currentBuild.currentResult],
             message: "*${currentBuild.currentResult}* : Job '${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
         }
     }
 }
-
