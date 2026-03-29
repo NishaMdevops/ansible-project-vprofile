@@ -73,7 +73,7 @@ pipeline {
         }
         stage('Quality Gate') {
             steps {
-                timeout(time: 1, unit: 'MINUTES') {
+                timeout(time: 1, unit: 'HOURS') {
                     waitForQualityGate abortPipeline: true
                 }
             }
@@ -95,12 +95,12 @@ pipeline {
                         file: 'target/vprofile-v2.war',
                         type: 'war']
                     ]
-          )
+                )
 
             }
 
         }        
-    }
+    
     
 
         stage("Build App Image") {
@@ -131,3 +131,4 @@ post {
         }
 }
 
+}
